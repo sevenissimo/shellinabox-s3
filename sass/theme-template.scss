@@ -1,0 +1,16 @@
+// Theme Template
+// This file is just a template and does *NOT* work in plain SASS/SCSS
+// cause %THEME% is a placeholder and it will be replaced by Makefile.
+
+// Otherwise this file can be duplicated and %THEME% manually set.
+// No theme means use `config` values (default set to ANSI colors).
+
+@import "themes/%THEME%";
+
+@import "functions";
+@import "config";
+@import "setup";
+@import "mixins";
+@import "theme";
+
+@include do_theme();

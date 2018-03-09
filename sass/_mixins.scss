@@ -1,0 +1,81 @@
+// Colors generation mixins
+// Used in conjunction with theme settings to generate color classes.
+
+
+// Class wrapper
+@mixin ansiCls($name, $color, $background: $color) {
+	  .ansi#{$name} { color: $color; }
+	.bgAnsi#{$name} { background: $background; }
+}
+
+// Default foreground/background
+@mixin ansiDef($color: $vt-color, $background: $vt-bg) {
+	@include ansiCls(Def,  $color, $background);
+	@include ansiCls(DefR,
+		if($background == transparent,
+			lighten(theme(background), 20%),
+			$background),
+		lighten($color, 20%)
+	);
+}
+
+
+// Ansi colors tables
+// https://en.wikipedia.org/wiki/ANSI_escape_code#24-bit
+
+// 0-7:  standard colors (as in ESC [ 30–37 m)
+// 8-15: high intensity colors (as in ESC [ 90–97 m)
+@mixin ansiStd() {
+	@for $i from 0 to 16 {
+		@include ansiCls($i, nth(theme(colors), $i+1));
+	}
+}
+
+// 16-231:  6 × 6 × 6 cube (216 colors): 16 + 36 × r + 6 × g + b
+@mixin ansiColors() {
+	$black: nth(theme(colors), 1);
+	$red:   nth(theme(colors), 10);
+	$green: nth(theme(colors), 11);
+	$blue:  nth(theme(colors), 13);
+
+	@for $r from 0 to 6 {
+		$red-shade: mix($red, $black, percentage($r/5));
+
+		@for $g from 0 to 6 {
+			$rg-shade: mix($green, $red-shade, percentage($g/5));
+
+			@for $b from 0 to 6 {
+				$color: mix($blue, $rg-shade, percentage($b/5));
+				$index: (16 + $r*36 + $g*6 + $b);
+
+				@include ansiCls($index, $color);
+			}
+		}
+	}
+}
+
+// 232-255:  grayscale from black to white in 24 steps
+@mixin ansiGray() {
+	$black: nth(theme(colors), 1);
+	$white: nth(theme(colors), 16);
+
+	// 23 luma steps
+	@for $l from 1 through 24 {
+		$color: mix($white, $black, percentage($l/25));
+		$index: (231 + $l);
+
+		@include ansiCls($index, $color);
+	}
+}
+
+
+// Aliases
+@mixin ansi16() {
+	@include ansiStd();
+}
+
+@mixin ansi256() {
+	@include ansiStd();
+	@include ansiColors();
+	@include ansiGray();
+}

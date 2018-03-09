@@ -1,0 +1,90 @@
+#keyboard {
+
+	// internal settings
+	$kbd-bg:    darken(ui-color(background),  5%) !default;
+
+	$key-color: darken(ui-color(foreground), 10%) !default;
+	$key-bg:           ui-color(background)       !default;
+
+	$key-shadow:       ui-color(shadow-color)     !default;
+	$key-shadows: (
+		"default":       0 0 5px     $key-shadow,
+		"pressed": inset 0 0 5px 1px $key-shadow,
+		"hover"  :       0 0 5px     ui-color(background-active),
+	);
+
+	
+	// Style
+	position: absolute;
+	z-index: 3;
+
+	.box {
+		font-family: $ui-font;
+		font-size: 12px;
+		background-color: transparentize($kbd-bg, .1);
+		padding: 1ex;
+		float: left;
+		position: absolute;
+		border-radius: 5px;
+		box-shadow: 0 0 5px 1px ui-color(shadow-color);
+
+		* {
+			vertical-align: top;
+			display: inline-block;
+		}
+	}
+
+	$key-size: 2ex;
+
+	b, i, s, u {
+		font-style: normal;
+		font-weight: bold;
+		border-radius: 3px;
+		color: $key-color;
+		background-color: $key-bg;
+		padding: 1ex;
+		margin: 3px;
+		height: $key-size;
+		display: inline-block;
+		text-align: center;
+		text-decoration: none;
+		cursor: default !important;
+		
+		box-shadow: map-get($key-shadows, "default");
+		transition: all .2s;
+
+		&:hover {
+			box-shadow: map-get($key-shadows, "hover");
+		}
+	}
+
+	b, s {
+		width: $key-size;
+	}
+
+	u, s {
+		visibility: hidden;
+	}
+
+	br ~ i {
+		padding: 1ex 1.5ex;
+	}
+
+	.shifted {
+		display: none;
+	}
+
+	.selected {
+		background-color: darken($key-bg, 10%);
+		color: $key-color;
+		position: relative;
+		top: 1px; left: 1px;
+		
+		box-shadow: map-get($key-shadows, "pressed");
+
+		&:hover {
+			box-shadow: map-get($key-shadows, "pressed"), map-get($key-shadows, "hover");
+		}
+	}
+
+} // #keyboard

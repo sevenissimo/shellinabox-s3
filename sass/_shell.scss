@@ -1,0 +1,212 @@
+// Shell
+// Provide style for Shellinabox elements.
+
+// Require config and global variables to be set.
+
+
+#vt100 {
+	// 1ch => 8.80px on 16px root. We want 1ch => 8px
+	// Unluckly this's based on client font-face :(
+	font-size: ($vt-font-width / 8.80) * 1rem;
+
+	#console,
+	#alt_console,
+	#cursor,
+	#lineheight,
+	.hidden pre {
+		font-family: $vt-font;
+	}
+
+	a {
+		color: inherit !important;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	#reconnect {
+		position: absolute;
+		z-index: 2;
+
+		input {
+			padding: 1ex;
+			font-weight: bold;
+		}
+	}
+
+	#cursize {
+		background: $vt-inverted-bg;
+		     color: $vt-inverted-color;
+		border-radius: 5px;
+		font-family: $ui-font;
+		font-weight: bold;
+		padding: 1ex;
+		position: absolute;
+		z-index: 2;
+	}
+
+	pre {
+		margin: 0px;
+
+		pre {
+			overflow: hidden;
+		}
+	}
+
+	#scrollable {
+		overflow-x: hidden;
+		overflow-y: scroll;
+		position: relative;
+		padding: 1px;
+	}
+
+	#lineheight {
+		position: absolute;
+		visibility: hidden;
+	}
+
+	#cursor {
+		position: absolute;
+		left: 0px; top: 0px;
+		overflow: hidden;
+		z-index: 1;
+
+		border-radius: 1px;
+		transition: background .5s, color .5s;
+
+		&.bright {
+			background: $cursor-bg;
+			     color: $cursor-color;
+		}
+
+		&.dim {
+			background: transparentize($vt-bg, 0.3);
+		}
+
+		&.inactive {
+			border: 1px solid transparentize($cursor-color, 0.4);
+			margin: -1px;
+		}
+	}
+
+	#padding {
+		visibility: hidden;
+		width: 1px;
+		height: 0px;
+		overflow: hidden;
+	}
+
+	.hidden {
+		position: absolute;
+		top: -10000px;
+		left: -10000px;
+		width: 0px;
+		height: 0px;
+	}
+
+	// Menu internal settings
+	$menu-pad-v: 1ex;
+	$menu-pad-h: 5ex;
+
+	$menu-img-size: 2ex;
+
+	#menu {
+		overflow: visible;
+		position: absolute;
+		z-index: 3;
+
+		.popup {
+			background: ui-color(background);
+			     color: ui-color(foreground);
+			border: 1px solid ui-color(border-color);
+			font-family: $ui-font;
+			font-size: 12px;
+			position: absolute;
+
+			box-shadow: 0 0 5px 1px ui-color(shadow-color);
+
+			ul {
+				list-style-type: none;
+				margin: 0px;
+				padding: ($menu-pad-v / 2) 0px;
+				min-width: 10em;
+			}
+
+			li {
+				padding: $menu-pad-v $menu-pad-h;
+				cursor: default !important;
+
+				img {
+					margin-left: -(($menu-pad-h + $menu-img-size) / 2);
+					margin-right: (($menu-pad-h - $menu-img-size) / 2);
+					width:  $menu-img-size;
+					height: $menu-img-size;
+
+					fill: ui-color(foreground);
+				}
+
+				&.hover {
+					background: ui-color(background-active);
+					     color: ui-color(foreground-active);
+
+					img {
+						fill: ui-color(foreground-active);
+					}
+				}
+
+				&.disabled {
+					color: ui-color(foreground-grayed);
+				}
+			}
+
+			hr {
+				margin: ($menu-pad-v / 2) 0;
+				border: none;
+				border-top: 1px solid ui-color(shadow-color);
+			}
+		}
+	}
+
+	#kbd_button {
+		position: fixed;
+		z-index: 0;
+		float: left;
+		visibility: hidden;
+
+		#kbd_img {}
+	}
+
+	table#kbd_button {
+	/*  Why a f**kin' table?? */
+		border-spacing: 2px 0;
+	}
+
+	@import "keyboard";
+
+	@media print {
+		.scrollback {
+			display: none;
+		}
+
+		#reconnect,
+		#cursor,
+		#menu,
+		#kbd_button,
+		#keyboard {
+			visibility: hidden;
+		}
+
+		#scrollable {
+			overflow: hidden;
+		}
+
+		#console,
+		#alt_console {
+			overflow: hidden;
+			width: 1000000ex;
+		}
+	}
+
+} // #vt100

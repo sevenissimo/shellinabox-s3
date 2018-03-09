@@ -1,0 +1,57 @@
+// Skelton for theme
+// Classes to style Shellinabox terminal with 16/256-ANSI colors.
+
+// Convenience alias
+@mixin __($color, $bg) {
+	background: $bg; //    !important;
+	     color: $color; // !important;
+}
+
+
+// Define a mixin to workaround @import directive
+// that cannot be used into conditional statement.
+
+@mixin do_theme($prefix: null) {
+
+	@if ($enable-external-themes) {
+		/* DEFINE_THEME_#{to_upper_case(theme(name))} */ // Do not remove/modify this line.
+		/*! #{theme(name)} theme by #{theme(author)} port to Shellinabox S3 (Sass Style System) v.0.1 */
+	}
+
+	#vt100 {
+		@include __($vt-color, $vt-bg);
+		@include ansiDef($vt-color, transparent /*$vt-bg*/);
+
+		#scrollable {
+			&.inverted {
+				@include __($vt-inverted-color, $vt-inverted-bg);
+				@include ansiDef($vt-inverted-color, $vt-inverted-bg);
+			}
+		}
+
+		#cursor {
+			&.bright {
+				@include __($cursor-color, $cursor-bg);
+			}
+			&.dim {
+				background: none; //$vt-bg;
+				background-color: transparent;
+			}
+			&.inactive {
+				border-color: transparentize($cursor-bg, .5);
+			}
+		}
+
+		@if ($enable-full-256-colors) {
+			@include ansi256();
+		}
+
+		// Disable bold font if dim/bright colors are enabled
+		@if ($enable-force-16-colors) {
+			[class^="ansi"] {
+				font-weight: normal !important;
+			}
+		}
+	}
+
+} // EndOf @mixin

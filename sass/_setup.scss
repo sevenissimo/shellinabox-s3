@@ -1,0 +1,39 @@
+// Colors setup
+// Used after <config> to finalize colors setup.
+
+
+// Auto-complete 8 colors palette
+@if (length(theme(colors)) == 8) {
+	$colors: theme(colors);
+	$colors: join($colors, $colors);
+
+	// Set color 9 to darkgray
+	$colors: set-nth($colors, 9, lighten(nth($colors, 1), $dim-amount*2));
+
+	// Let color 16 be white, set color 8 to lightgray
+	$colors: set-nth($colors, 8, darken(nth($colors, 16), $dim-amount));
+
+	$theme: map-merge($theme, (colors: $colors));
+}
+
+// Check that high intensity colors are not just duplicates.
+@if ($enable-force-16-colors) {
+	$colors: theme(colors);
+
+	@for $i from 1 through 8 {
+		$color-low:  nth($colors, $i);
+		$color-high: nth($colors, $i+8);
+
+		@if ($color-low == $color-high) {
+			$colors: set-nth($colors, $i, darken($color-low, $dim-amount));
+		}
+	}
+
+	$theme: map-merge($theme, (colors: $colors));
+}
+
+
+// Assert 16 colors palette is ready.
+@if (length(theme(colors)) < 16) {
+	@error "Color palette *MUST* be 8 standard colors + 8 high intensity colors.";
+}

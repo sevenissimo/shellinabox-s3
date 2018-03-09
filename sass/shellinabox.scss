@@ -1,0 +1,35 @@
+/*!
+ * Shellinabox S3 (Sass Style System) v.0.1
+ * Based on original Shellinabox CSS
+ *      https://github.com/shellinabox/shellinabox/blob/master/shellinabox/styles.css
+ * Licensed under GPLv2 (https://github.com/shellinabox/shellinabox/blob/master/GPL-2)
+ */
+
+// If you do *NOT* use external theme, import a color scheme here.
+// No theme means use `config` values (default set to ANSI colors).
+
+// @import "themes/solarized-light";
+
+@import "functions";
+@import "config";
+@import "setup";
+@import "mixins";
+@import "theme";
+@import "images";
+
+
+// Partials
+@import "shell";
+
+// Optional partials
+@if (not($enable-external-themes)) {
+	@include do_theme();
+}
+@else {
+	@warn("No theme included into main CSS. Please, when run Shellinabox daemon, specifing external theme file(s).
+	-> shellinaboxd --user-css=ThemeName:/path/to/external/theme.css");
+}
+
+@if ($enable-images-replacement) {
+	@include do_replacement();
+}

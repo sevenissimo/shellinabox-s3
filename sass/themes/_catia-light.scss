@@ -1,0 +1,21 @@
+$theme: (
+  name: "Catia (light)",
+  author: "",
+  colors: (
+    hsl( 37, 10%, 13%),
+    hsl(  0, 76%, 64%),
+    hsl( 80, 49%, 57%),
+    hsl( 32, 94%, 65%),
+    hsl(210, 52%, 73%),
+    hsl(300, 42%, 60%),
+    hsl(160, 39%, 64%),
+    hsl( 37, 20%, 97%)
+  ),
+  foreground: hsl(37, 20%, 13%),
+  background: hsl(37, 100%, 88%)
+);
+
+$vt-bg: linear-gradient(to right,
+	map-get($theme, background) 50%,
+	mix(map-get($theme, background), white, 50%)
+);

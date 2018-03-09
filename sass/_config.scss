@@ -1,0 +1,77 @@
+// Configuration Settings
+// Adjust colors, font stacks, etc.
+
+// Every Sass variable defined here includes the "!default" flag, so
+// if a variable has been already assigned, then it won’t be overridden.
+
+// Import a theme into main Sass file, to set theme's own colors, etc.
+// No theme means use values defined below, matching default ANSI colors.
+
+
+// Colors system
+$black:   #000000 !default;
+$red:     #ff0000 !default;
+$green:   #00ff00 !default;
+$yellow:  #ffff00 !default;
+$blue:    #0000ff !default;
+$magenta: #ff00aa !default;
+$cyan:    #00ffff !default;
+$white:   #ffffff !default;
+
+// Amount used on dimmed colors generation
+$dim-amount: 16.6666%;
+
+// Theme extension
+$theme: () !default;
+$theme: map-merge((
+	name: "Default",
+	author: "ANSI",
+	colors: (
+		// Sorted palette
+		// 8 bright colors + 8 dimmed colors auto-generated on setup
+		$black,			$red,			$green,			$yellow,
+		$blue,			$magenta,		$cyan,			$white
+	),
+	background: white,
+	foreground: black
+), $theme);
+
+
+// Options
+$enable-force-16-colors:    true !default; // Force use of dim/bright colors over bold font
+$enable-full-256-colors:    true !default; // Generate all 256 colors classes
+$enable-external-themes:    true !default; // Do not include any theme into main CSS
+$enable-images-replacement: true !default; // Include images replacement CSS
+
+
+// Variables
+// Variables should follow the `$component-state-property` formula.
+
+// Terminal colors
+$vt-bg:    theme(background) !default;
+$vt-color: theme(foreground) !default;
+
+$vt-inverted-bg:    lighten(theme(foreground), 20%) !default;
+$vt-inverted-color: lighten(theme(background), 20%) !default;
+
+$cursor-bg:    $vt-inverted-bg    !default;
+$cursor-color: $vt-inverted-color !default;
+
+// Terminal font
+$vt-font: "DejaVu Sans Mono", "Everson Mono", FreeMono, "Andale Mono", Consolas, monospace !default;
+$vt-font-width: 8; // Unitless value, measure in pixel!
+
+
+// UI
+$ui-colors: () !default;
+$ui-colors: map-merge((
+	background:        #fbfbfb, // white -1.7%
+	foreground:        black,
+	border-color:      lightgray,
+	shadow-color:      rgba(0,0,0,.3),
+	background-active: #5a97ff,
+	foreground-active: white,
+	foreground-grayed: gray
+), $ui-colors);
+
+$ui-font: MenuText, sans-serif !default; // Let it adapt to guest OS
