@@ -21,7 +21,7 @@
 
 
 // Ansi colors tables
-// https://en.wikipedia.org/wiki/ANSI_escape_code#24-bit
+// https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit
 
 // 0-7:  standard colors (as in ESC [ 30–37 m)
 // 8-15: high intensity colors (as in ESC [ 90–97 m)
@@ -33,20 +33,23 @@
 
 // 16-231:  6 × 6 × 6 cube (216 colors): 16 + 36 × r + 6 × g + b
 @mixin ansiColors() {
-	$black: nth(theme(colors), 1);
-	$red:   nth(theme(colors), 10);
-	$green: nth(theme(colors), 11);
-	$blue:  nth(theme(colors), 13);
+	$black: change-color( nth(theme(colors), 1),  $lightness: 2% );
+	$red:   change-color( nth(theme(colors), 10), $lightness: 50%);
+	$green: change-color( nth(theme(colors), 11), $lightness: 50%);
+	$blue:  change-color( nth(theme(colors), 13), $lightness: 50%);
+	$index: 15;
 
+	// Sass `mix()` function is not suitable for this use!
+	// Instead we defined `sum-colors()` in `function.scss`
 	@for $r from 0 to 6 {
-		$red-shade: mix($red, $black, percentage($r/5));
+		$r-shade: sum-colors($black, $red, ($r/5));
 
 		@for $g from 0 to 6 {
-			$rg-shade: mix($green, $red-shade, percentage($g/5));
+			$rg-shade: sum-colors($r-shade, $green, ($g/5));
 
 			@for $b from 0 to 6 {
-				$color: mix($blue, $rg-shade, percentage($b/5));
-				$index: (16 + $r*36 + $g*6 + $b);
+				$color: sum-colors($rg-shade, $blue, ($b/5));
+				$index: $index +1; // (16 + $r*36 + $g*6 + $b);
 
 				@include ansiCls($index, $color);
 			}

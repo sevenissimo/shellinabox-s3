@@ -1,6 +1,19 @@
 // Functions
-// Utility functions for ..TODO
+// Custom Sass functions used in Shellinabox S3
 
+
+// Colors arithmetic
+// Used in `mixins` to generate 216 colors table
+@function sum-colors($color-a, $color-b, $amount) {
+	@return adjust-color($color-a,
+		$red:     red($color-b) * $amount,
+		$green: green($color-b) * $amount,
+		$blue:   blue($color-b) * $amount
+	);
+}
+
+
+// Sass map abstraction
 // Retrieve property from theme
 @function theme($prop) {
 	@return map-get($theme, $prop);
@@ -15,7 +28,7 @@
 	// Lookup into theme's sorted palette
 	$index: index((
 			black, red, green, yellow, blue, magenta, cyan, white,
-			brightblack, brightred,     brightgreen, brightyellow, 
+			brightblack, brightred,     brightgreen, brightyellow,
 			brightblue,  brightmagenta, brightcyan,  brightwhite), $name);
 
 	@return nth(theme(colors), $index);
